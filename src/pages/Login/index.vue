@@ -33,6 +33,9 @@
                 class="text-sm px-4 py-3 rounded-lg w-full bg-gray-200 focus:bg-gray-100 border border-gray-200 focus:outline-none focus:border-red-400"
                 placeholder="Password"
               />
+              <span class="toggle-password" @click="showPassword=!showPassword">
+                <font-awesome-icon :icon="!showPassword ? 'eye-slash' : 'eye'" />
+              </span>
             </div>
             <div class="flex items-center justify-between">
               <div class="text-sm ml-auto">
@@ -66,3 +69,18 @@ export default {
   },
 };
 </script>
+<style scoped>
+.toggle-password {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #888;
+  font-size: 18px;
+}
+
+.toggle-password:hover {
+  color: #555;
+}
+</style>
