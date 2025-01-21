@@ -5,7 +5,7 @@
     class="relative min-h-screen sm:flex sm:flex-row justify-center items-center bg-transparent rounded-3xl shadow-xl">
     <div class="flex-col flex self-center lg:px-14 sm:max-w-4xl xl:max-w-md z-10 w-1/2">
       <div class="w-full">
-        <img src="../../../public/familyShopping.png" alt="">
+        <img src="/familyShopping.png" alt="">
       </div>
     </div>
     <div class="flex justify-center self-center z-10">
@@ -102,6 +102,7 @@ export default {
     async onSubmit(){
       try{
        await this.$store.dispatch('auth/login',{username:this.form.username, password:this.form.password})
+       this.$router.push('/')
       }catch(error){
         this.$toaster.error(error.response.data)
       }
