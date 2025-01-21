@@ -1,3 +1,3 @@
-export function status (state){
-    return state.status;
+export function isAuthenticated(){
+    return !!localStorage.getItem('token');
 }
