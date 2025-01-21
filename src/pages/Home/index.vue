@@ -4,6 +4,14 @@
 
 <script>
 export default{
-    name:'Home'
+    name:'Home',
+    mounted() {
+        this.fetchProducts()
+    },
+    methods: {
+        async fetchProducts(){
+            await this.$store.dispatch('home/fetchProducts')
+        }
+    },
 }
 </script>
