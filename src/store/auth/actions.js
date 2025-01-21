@@ -7,7 +7,6 @@ export function login({commit},{ username, password }) {
             password
         })
         .then((res) => {
-            console.log("Login Success:", res.data.token); // Output the response
             localStorage.setItem('token',res.data.token)
         })
 }
