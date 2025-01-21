@@ -16,26 +16,30 @@
             <a href="#" class="text-sm text-red-700 hover:text-red-700">Sign Up</a>
           </p>
         </div>
-        <form>
+        <form @submit.prevent="onSubmit">
           <div class="space-y-6">
-            <div>
+            <div class="flex flex-col gap-4">
               <input
                 v-model="form.email"
                 class="w-full text-sm px-4 py-3 bg-gray-200 focus:bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:border-red-400"
                 type="email"
                 placeholder="Email"
+                @input="()=>validateField('email',form.email)"
               />
+              <p v-if="errors.email" class="text-red-500 text-xs text-left px-2">{{ errors.email }}</p>
             </div>
-            <div class="relative">
+            <div class="relative flex flex-col gap-4">
               <input
                 v-model="form.password"
                 :type="showPassword ? 'text' : 'password'"
                 class="text-sm px-4 py-3 rounded-lg w-full bg-gray-200 focus:bg-gray-100 border border-gray-200 focus:outline-none focus:border-red-400"
                 placeholder="Password"
+                @input="()=>validateField('password',form.password)"
               />
-              <span class="toggle-password" @click="showPassword=!showPassword">
+              <span class="toggle-password" :class="{'!top-[30%]':errors.password}" @click="showPassword=!showPassword">
                 <font-awesome-icon :icon="!showPassword ? 'eye-slash' : 'eye'" />
               </span>
+              <p v-if="errors.password" class="text-red-500 text-xs text-left px-2">{{ errors.password }}</p>
             </div>
             <div class="flex items-center justify-between">
               <div class="text-sm ml-auto">
@@ -56,6 +60,7 @@
 </template>
 
 <script>
+import * as yup from 'yup'
 export default {
   name: "Login",
   data() {
@@ -64,10 +69,38 @@ export default {
         email: "",
         password: "",
       },
+      errors:{
+        email:'',
+        password:'',
+      },
       showPassword: false,
     };
   },
-};
+  computed:{
+    validationSchema() {
+      return yup.object({
+        email: yup.string().email("Invalid email address").required("Email is required"),
+        password: yup.string().min(6, "Password must be at least 6 characters").required("Password is required"),
+      });
+    },
+  },
+  methods: {
+    validateField(field, value) {
+      const schema = this.validationSchema;
+      schema
+        .validateAt(field, { [field]: value })
+        .then(() => {
+          this.errors[field] = ""; // Clear error if valid input
+        })
+        .catch((err) => {
+          this.errors[field] = err.message; // Set error if invalid input
+        });
+    },
+    onSubmit(){
+      console.log(this.form);
+    }
+  },
+}
 </script>
 <style scoped>
 .toggle-password {
