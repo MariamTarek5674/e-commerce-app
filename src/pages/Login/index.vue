@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="flex justify-center self-center z-10">
-      <div class="p-12 bg-white mx-auto rounded-3xl min-w-96 ">
+      <div class="p-12 bg-white mx-auto rounded-3xl min-w-96 max-w-96">
         <div class="mb-7">
           <h3 class="font-semibold text-2xl text-gray-800">Sign In</h3>
           <p class="text-gray-400">Don't have an account? 
@@ -20,13 +20,13 @@
           <div class="space-y-6">
             <div class="flex flex-col gap-4">
               <input
-                v-model="form.email"
+                v-model="form.username"
                 class="w-full text-sm px-4 py-3 bg-gray-200 focus:bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:border-red-400"
-                type="email"
-                placeholder="Email"
-                @input="()=>validateField('email',form.email)"
+                type="text"
+                placeholder="Username"
+                @input="()=>validateField('username',form.username)"
               />
-              <p v-if="errors.email" class="text-red-500 text-xs text-left px-2">{{ errors.email }}</p>
+              <p v-if="errors.username" class="text-red-500 text-xs text-left px-2 text-wrap">{{ errors.username }}</p>
             </div>
             <div class="relative flex flex-col gap-4">
               <input
@@ -61,16 +61,17 @@
 
 <script>
 import * as yup from 'yup'
+import Swal from 'sweetalert2';
 export default {
   name: "Login",
   data() {
     return {
       form: {
-        email: "",
+        username: "",
         password: "",
       },
       errors:{
-        email:'',
+        username:'',
         password:'',
       },
       showPassword: false,
@@ -79,7 +80,9 @@ export default {
   computed:{
     validationSchema() {
       return yup.object({
-        email: yup.string().email("Invalid email address").required("Email is required"),
+        username: yup.string()
+        .matches(/^[a-zA-Z0-9._]{3,20}$/, "Username must be 3-20 characters and can only include letters, numbers, and underscores")
+        .required("Username is required"),
         password: yup.string().min(6, "Password must be at least 6 characters").required("Password is required"),
       });
     },
@@ -96,8 +99,12 @@ export default {
           this.errors[field] = err.message; // Set error if invalid input
         });
     },
-    onSubmit(){
-      console.log(this.form);
+    async onSubmit(){
+      try{
+       await this.$store.dispatch('auth/login',{username:this.form.username, password:this.form.password})
+      }catch(error){
+        this.$toaster.error(error.response.data)
+      }
     }
   },
 }
