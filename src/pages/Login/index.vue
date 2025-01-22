@@ -61,7 +61,6 @@
 
 <script>
 import * as yup from 'yup'
-import Swal from 'sweetalert2';
 export default {
   name: "Login",
   data() {
