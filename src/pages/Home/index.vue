@@ -6,9 +6,14 @@
             <p class="mt-4 text-base font-normal leading-7 text-gray-600">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Purus faucibus massa dignissim tempus.</p>
         </div>
 
-        <div class="grid grid-cols-1 gap-10 md:gap-6 mt-10 lg:mt-16 lg:gap-8 lg:grid-cols-4">
+        <div v-if="!loading" class="grid grid-cols-1 gap-10 md:gap-6 mt-10 lg:mt-16 lg:gap-8 lg:grid-cols-4">
             <div v-for="product in products" :key="product.id">
                 <product-card :product="product" />
+            </div>
+        </div>
+        <div v-else class="grid grid-cols-1 gap-10 md:gap-6 mt-10 lg:mt-16 lg:gap-8 lg:grid-cols-4">
+            <div v-for="(product,index) in 8" :key="index">
+                <product-card-skelton />
             </div>
         </div>
     </div>
@@ -18,10 +23,18 @@
 
 <script>
 import ProductCard from '../../components/productCard/index.vue'
+import ProductCardSkelton from '../../components/productCard/ProductCardSkelton.vue'
+
 export default{
     name:'Home',
     components:{
-        ProductCard
+        ProductCard,
+        ProductCardSkelton
+    },
+    data(){
+        return{
+            loading:true
+        }
     },
     computed: {
         products(){
@@ -34,6 +47,7 @@ export default{
     methods: {
         async fetchProducts(){
             await this.$store.dispatch('home/fetchProducts')
+            this.loading=false
         }
     },
 }
