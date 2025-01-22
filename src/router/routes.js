@@ -9,6 +9,11 @@
             path:"/",
             component:()=>import('../pages/Home/index.vue'),
         },
+        {
+          name:'productDetails',
+          path:'product/:id',
+          component:()=>import('../pages/ProductDetails/index.vue')
+        }
       ]
     },
     {
