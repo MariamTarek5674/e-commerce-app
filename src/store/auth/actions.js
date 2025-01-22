@@ -10,3 +10,7 @@ export function login({commit},{ username, password }) {
             localStorage.setItem('token',res.data.token)
         })
 }
+
+export function logout(){
+    localStorage.removeItem('token')
+}
