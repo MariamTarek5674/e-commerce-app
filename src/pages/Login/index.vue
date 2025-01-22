@@ -1,9 +1,8 @@
 <template>
-  <div class="bg-gray-100 absolute top-0 left-0 bottom-0 leading-5 h-full w-full overflow-hidden">
-  </div>
+  <div class="bg-gray-100 absolute top-0 left-0 right-0 leading-5 h-auto w-full overflow-hidden min-h-screen z-0">
   <div
-    class="relative min-h-screen sm:flex sm:flex-row justify-center items-center bg-transparent rounded-3xl shadow-xl">
-    <div class="flex-col flex self-center lg:px-14 sm:max-w-4xl xl:max-w-md z-10 w-1/2">
+    class="relative min-h-screen md:flex md:flex-row justify-center items-center bg-transparent rounded-3xl shadow-xl py-5">
+    <div class="flex-col flex self-center items-center justify-center  sm:max-w-4xl xl:max-w-md z-10 w-full">
       <div class="w-full">
         <img src="/familyShopping.png" alt="">
       </div>
@@ -57,6 +56,7 @@
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <script>
