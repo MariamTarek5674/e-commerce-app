@@ -1,5 +1,5 @@
 <template>
-    <div class="relative group flex flex-col gap-3">
+    <div class="relative group flex flex-col gap-3 cursor-pointer" @click="redirectionToProductDetails">
                 <div class="overflow-hidden aspect-w-1 aspect-h-1 h-48 md:h-80 md:p-5 ">
                     <img class="w-full h-full transition-all duration-300 group-hover:scale-125 object-contain" :src="product.image" :alt="product.title" />
                 </div>
@@ -44,6 +44,9 @@ export default{
     methods:{
         truncateTitle(title){
             return title.length > 15 ? title.substring(0, 15) + '...' : title;
+        },
+        redirectionToProductDetails(){
+            this.$router.push(`/product/${this.product.id}`)
         }
     }
 }
