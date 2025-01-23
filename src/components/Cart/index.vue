@@ -1,11 +1,12 @@
 <template>
-<section class="fixed top-0 right-0 bottom-0 left-0 z-20 " style="background-color: rgba(241, 245, 249, 0.5);" :class="{ 'slide-out-right': isDisappearing }">
-    <div class=" flex flex-col items-end"   :class="{ 'slide-out-right': isDisappearing }">
-        <div class="flex flex-col gap-2 w-1/3 px-3 overflow-auto fixed top-0 bottom-0 right-0 z-30 bg-white py-6" @click.stop>
-        <div class="flex px-4 justify-between items-center">
-            <font-awesome-icon icon="times" class="text-2xl font-extrabold cursor-pointer" @click="closeCart" />
-            <h1 class="text-2xl font-semibold">
-                My Cart
+<section  class="fixed top-0 right-0 bottom-0 left-0 z-20 " style="background-color: rgba(241, 245, 249, 0.5);" :class="{ 'slide-out-right': isDisappearing }">
+    <div  :class="{ 'slide-out-right': isDisappearing }">
+      <div  class="flex flex-col gap-2 w-1/3 px-3 overflow-auto fixed top-0 bottom-0 right-0 z-30 bg-white py-6" @click.stop>
+       <div v-for="(cart,index) in userCarts" :key="cart.id" class="flex flex-col gap-6">
+        <div class="flex px-4 justify-between items-center"  :class="{'!justify-end':!index==0}">
+            <font-awesome-icon v-if="index==0" icon="times" class="text-2xl font-extrabold cursor-pointer" @click="closeCart" />
+            <h1 class="text-2xl font-semibold" v-if="index==0">
+                My Carts
             </h1>
             <div>
                 <button class="flex gap-2 items-center text-sm border-2 border-black font-semibold rounded-full whitespace-nowrap py-[.5rem] px-[1rem] hover:bg-red-600 hover:text-white hover:border-red-600 group transition-all duration-200">
@@ -14,14 +15,16 @@
                 </button>
             </div>
         </div>
-        <div class="flex flex-col gap-2 px-5 py-2" v-for="item in 5" :key="item">
-            <line-item-card :cardData="card" />
+        <div class="flex flex-col gap-2 px-5 py-2" v-for="product in cart.products" :key="product.id">
+                <line-item-card :productData="product" />
         </div>
         <button class="min-w-[90%] w-auto m-auto text-xl border-2 border-black whitespace-nowrap py-[.5rem] px-[1rem] font-bold hover:text-white hover:bg-black transition-all duration-500">
-              PAY 4000000 EGP
+              PAY {{ calculateCartTotal(cart)}} EGP
         </button>
+        <hr v-if="index != userCarts.length-1" />
     </div>
-    </div>
+   </div>
+  </div>
 </section>
 </template>
 
@@ -35,26 +38,17 @@ export default{
     },
     data(){
         return{
-            card:{ 
-              id: 1,
-              quantity:"5",
-              title: "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
-              price: 109.95,
-              description: "Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday",
-              category: "men's clothing",
-              image: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg",
-              rating: {
-              rate: 3.9,
-               count: 120,
-            }
-            
-        },
         isDisappearing:false,  
     }
 },
+computed:{
+    userCarts(){
+        return this.$store.getters['cart/userCarts']
+    },
+},
 mounted() {
     window.addEventListener('click',this.closeCart)
-  },
+},
 beforeUnmount() {
     window.removeEventListener('click', this.closeCart);
 },
@@ -64,6 +58,16 @@ methods:{
       setTimeout(() => {
         this.$store.commit('cart/toggleCartStatus')
       }, 500);
+    },
+    calculateCartTotal(cart) {
+        let total = 0;
+        cart.products.forEach(product => {
+            const productDetails = this.$store.getters['home/getProductById'](product.productId);
+            if (productDetails) {
+                total += productDetails.price * product.quantity;
+            }
+        });
+        return total.toFixed(2);
     }
 },
 }
