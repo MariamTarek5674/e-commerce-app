@@ -1,5 +1,7 @@
 export default function() {
   return {
-    isCartOpen:false
+    isCartOpen:false,
+    userCarts:null,
+    cartItemsLength:0,
   };
 }
