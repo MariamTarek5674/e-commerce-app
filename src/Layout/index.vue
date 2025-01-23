@@ -17,6 +17,9 @@ export default{
         isCartOpen(){
             return this.$store.getters['cart/isCartOpen']
         }
+    },
+    mounted(){
+      this.$store.dispatch('cart/fetchUserCarts')
     }
 }
 </script>
