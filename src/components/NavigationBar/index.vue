@@ -1,5 +1,5 @@
 <template>
-    <nav class="fixed top-0 right-0 left-0 py-5 z-20 bg-white shadow-md	">
+    <nav class="fixed top-0 right-0 left-0 py-5 z-20 bg-white shadow-md" @click.stop>
    <div class="w-[90%] m-auto flex items-center justify-between">
      <div class="logo">
        <router-link to="/" class="text-black font-bold cursor-pointer text-3xl">A Y N</router-link>
