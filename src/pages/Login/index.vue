@@ -25,7 +25,7 @@
                 placeholder="Username"
                 @input="()=>validateField('username',form.username)"
               />
-              <p v-if="errors.username" class="text-red-500 text-xs text-left px-2 text-wrap">{{ errors.username }}</p>
+              <p v-if="errors.username" class="text-red-500 text-xs text-left px-2 text-wrap username-error">{{ errors.username }}</p>
             </div>
             <div class="relative flex flex-col gap-4">
               <input
@@ -38,7 +38,7 @@
               <span class="toggle-password" :class="{'!top-[30%]':errors.password}" @click="showPassword=!showPassword">
                 <font-awesome-icon :icon="!showPassword ? 'eye-slash' : 'eye'" />
               </span>
-              <p v-if="errors.password" class="text-red-500 text-xs text-left px-2">{{ errors.password }}</p>
+              <p v-if="errors.password" class="text-red-500 text-xs text-left px-2 password-error">{{ errors.password }}</p>
             </div>
             <div class="flex items-center justify-between">
               <div class="text-sm ml-auto">
