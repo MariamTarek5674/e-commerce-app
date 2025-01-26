@@ -11,11 +11,13 @@
              </div>
         </div>
         <div class='w-1/4 pt-2 flex justify-between items-center'>
-            <button class='w-[25px] h-[25px] border-black border-2 font-bold cursor-pointer flex items-center  justify-center p-0 m-0'>
+            <button class='w-[25px] h-[25px] border-black border-2 font-bold cursor-pointer flex items-center  justify-center p-0 m-0'
+              @click="handleQuantityChange('-')">
                        -
             </button>
             <span class="font-bold text-black">{{productData.quantity}}</span>
-            <button class="w-[25px] h-[25px] border-black border-2 font-bold cursor-pointer flex items-center  justify-center p-0 m-0 ">
+            <button class="w-[25px] h-[25px] border-black border-2 font-bold cursor-pointer flex items-center  justify-center p-0 m-0 "
+              @click="handleQuantityChange('+')">
                       +
             </button>
         </div>
@@ -41,6 +43,11 @@ export default{
             loading:true,
         }
     },
+    computed:{
+        cartId(){
+            return this.$store.getters['cart/userCarts'][0].id
+        }
+    },
     mounted(){
         this.fetchProduct()
     },
@@ -52,6 +59,13 @@ export default{
        let response= await this.$store.dispatch('home/fetchProductDetails',this.productData.productId)
        this.product=response.data
        this.loading=false
+    },
+    async handleQuantityChange(changeType){
+        if(changeType=='+'){
+            await this.$store.dispatch('cart/updateProductQuantity',{productId:this.productData.id, quantity:this.productData.quantity+1,cartId:this.cartId})
+        }else{
+            await this.$store.dispatch('cart/updateProductQuantity',{productId:this.productData.id, quantity:this.productData.quantity-1,cartId:this.cartId})
+        }
     }
 },
 
