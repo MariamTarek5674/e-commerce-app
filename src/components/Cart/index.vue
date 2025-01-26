@@ -2,18 +2,20 @@
 <section  class="fixed top-0 right-0 bottom-0 left-0 z-20 " style="background-color: rgba(241, 245, 249, 0.5);" :class="{ 'slide-out-right': isDisappearing }">
     <div  :class="{ 'slide-out-right': isDisappearing }">
       <div  class="flex flex-col gap-2 w-1/3 px-3 overflow-auto fixed top-0 bottom-0 right-0 z-30 bg-white py-6" @click.stop>
-       <div v-for="(cart,index) in userCarts" :key="cart.id" class="flex flex-col gap-6">
-        <div class="flex px-4 justify-between items-center"  :class="{'!justify-end':!index==0}">
-            <font-awesome-icon v-if="index==0" icon="times" class="text-2xl font-extrabold cursor-pointer" @click="closeCart" />
-            <h1 class="text-2xl font-semibold" v-if="index==0">
+        <div class="flex px-4 justify-between items-center">
+            <font-awesome-icon icon="times" class="text-2xl font-extrabold cursor-pointer" @click="closeCart" />
+            <h1 class="text-2xl font-semibold">
                 My Carts
             </h1>
-            <div>
-                <button class="flex gap-2 items-center text-sm border-2 border-black font-semibold rounded-full whitespace-nowrap py-[.5rem] px-[1rem] hover:bg-red-600 hover:text-white hover:border-red-600 group transition-all duration-200">
+        </div>
+       <div v-if="userCarts.length>0 && !fetchCartLoading">
+       <div v-for="(cart,index) in userCarts" :key="cart.id" class="flex flex-col gap-6">
+        <div class="flex px-4 pt-4 !justify-end items-center">
+                <button class="flex gap-2 items-center text-sm border-2 border-black font-semibold rounded-full whitespace-nowrap py-[.5rem] px-[1rem] hover:bg-red-600 hover:text-white hover:border-red-600 group transition-all duration-200"
+                  @click="clearCart(cart.id)">
                     Clear
                     <font-awesome-icon icon="trash" class="text-red-500 text-sm group-hover:text-white"/>
                 </button>
-            </div>
         </div>
         <div class="flex flex-col gap-2 px-5 py-2" v-for="product in cart.products" :key="product.id">
                 <line-item-card :productData="product" />
@@ -23,6 +25,10 @@
         </button>
         <hr v-if="index != userCarts.length-1" />
     </div>
+  </div>
+  <div v-else>
+      <h1 class="font-bold text-4xl text-red-800 py-20">Empty Cart</h1>
+  </div>
    </div>
   </div>
 </section>
@@ -45,6 +51,9 @@ computed:{
     userCarts(){
         return this.$store.getters['cart/userCarts']
     },
+    fetchCartLoading(){
+      return this.$store.getters['cart/fetchCartLoading']
+    }
 },
 mounted() {
     window.addEventListener('click',this.closeCart)
@@ -68,6 +77,9 @@ methods:{
             }
         });
         return total.toFixed(2);
+    },
+    clearCart(id){
+      this.$store.dispatch('cart/clearCart',id)
     }
 },
 }
