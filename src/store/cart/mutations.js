@@ -6,3 +6,5 @@ export const toggleCartStatus =(state)=> state.isCartOpen=!state.isCartOpen
 export const setUserCarts =(state,items)=> state.userCarts=items 
 
 export const setCartItemsLength =(state,length)=> state.cartItemsLength=length 
+
+export const setFetchCartLoading =(state,status)=> state.fetchCartLoading=status 

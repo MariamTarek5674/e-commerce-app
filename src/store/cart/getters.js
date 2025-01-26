@@ -8,3 +8,7 @@ export function userCarts(state){
 export function cartItemsLength(state){   
   return state.cartItemsLength;
 }
+
+export function fetchCartLoading(state){   
+  return state.fetchCartLoading;
+}

@@ -3,5 +3,6 @@ export default function() {
     isCartOpen:false,
     userCarts:null,
     cartItemsLength:0,
+    fetchCartLoading:false,
   };
 }
