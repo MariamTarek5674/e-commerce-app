@@ -44,8 +44,8 @@ it('renders the login form correctly', () => {
   })
 
   it('calls the login action on valid form submission', async () => {
-    store.dispatch.login = vi.fn(() => Promise.resolve()) 
-
+    //store.dispatch.login = vi.fn(() => Promise.resolve()) 
+    const spayOnLogin= vi.spyOn(store,"dispatch") 
     const usernameInput = wrapper.find('input[placeholder="Username"]');
     const passwordInput = wrapper.find('input[placeholder="Password"]');
     await usernameInput.setValue('validUser');
@@ -54,7 +54,7 @@ it('renders the login form correctly', () => {
     const form = wrapper.find('form');
     await form.trigger('submit.prevent');
 
-    expect(store.dispatch).toHaveBeenCalledWith('auth/login', {
+    expect(spayOnLogin).toHaveBeenCalledWith('auth/login', {
         username: 'validUser',
         password: 'validPass123',
       });
