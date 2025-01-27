@@ -3,10 +3,10 @@
          <div class="flex w-1/4 h-full gap-2">
             <img class="h-full object-contain" :src="product.image" alt="" />
             <div class="flex flex-col justify-center items-start whitespace-nowrap">
-                <div class="text-left">
+                <div class="text-left product-title">
                         {{ truncatedTitle(product.title)   }}
                 </div>
-                <div class="font-bold text-lg p-2">{{product.price}} EGP</div>
+                <div class="font-bold text-lg p-2 product-price">{{product.price}} EGP</div>
                      
              </div>
         </div>
@@ -45,7 +45,7 @@ export default{
     },
     computed:{
         cartId(){
-            return this.$store.getters['cart/userCarts'][0].id
+            return this.$store.getters['cart/cartId']
         }
     },
     mounted(){

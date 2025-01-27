@@ -12,3 +12,7 @@ export function cartItemsLength(state){
 export function fetchCartLoading(state){   
   return state.fetchCartLoading;
 }
+
+export function cartId(state){
+  return state.userCarts[0].id
+}
