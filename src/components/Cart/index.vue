@@ -27,7 +27,7 @@
     </div>
   </div>
   <div v-else>
-      <h1 class="font-bold text-4xl text-red-800 py-20">Empty Cart</h1>
+      <h1 class="font-bold text-4xl text-red-800 py-20 empty-cart">Empty Cart</h1>
   </div>
    </div>
   </div>
